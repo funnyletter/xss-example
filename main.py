@@ -1,5 +1,6 @@
 import os
 import base64
+import random
 
 from flask import Flask, request
 from model import Message 
@@ -8,6 +9,8 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    if 'csrf_token' not in session:
+        session['csrf_token'] = str(random.randint(10000000, 99999999))
 
     if request.method == 'POST':
         m = Message(content=request.form['content'])
